@@ -28,7 +28,6 @@ d3.json("hierachy.json", function(hierachy){
 							console.log(quali_value);
 							console.log(quanti_value)
 						}
-						//data.push(quanti_value);
 						data.push({title: quali_value, value: quanti_value});
 						
 					   }
@@ -40,20 +39,33 @@ d3.json("hierachy.json", function(hierachy){
 				.accessor(function(d) {return d.value;})
 				.innerRadius(50)
 				.radialLabels(radialLabels)
-				.segmentLabels(segment_labels);			
+				.segmentLabels(segment_labels)
+				.range(["green", "orange"]);;			
 
 			d3.select('#chart')
 				.selectAll('svg')
 				.data([data])
 				.enter()
 				.append('svg')
-				.call(chart);
+				.call(chart)
 				
+			//~ d3.select('#chart svg')  
+				  //~ .call(tip)			
+			      //~ .on('mouseover', tip.show)
+				  //~ .on('mouseout', tip.hide)
+				  //~ 
 			d3.selectAll("#chart path").on('mouseover', function() {
 				var d = d3.select(this).data()[0];
 				d3.select("#descriptor").html(d.title + ' has value ' + d.value)
 			});
-	
+			
+			//~ var tip = d3.tip()
+			  //~ .attr('class', 'd3-tip')
+			  //~ .offset([-10, 0])
+			  //~ .html(function(d) {
+				//~ return "<strong>Frequency:</strong> <span style='color:red'>" + "</span>";
+			  //~ })
+	//~ 
 		})
 	
 	})
