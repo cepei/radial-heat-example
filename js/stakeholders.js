@@ -1,3 +1,4 @@
+window.onload = function(){
 var hierachy_data;
 
 d3.json("hierachy.json", function(hierachy){
@@ -70,6 +71,6 @@ d3.json("hierachy.json", function(hierachy){
 	
 	})
 
-
+}
 
 
