@@ -1,0 +1,117 @@
+{
+    "nadie_atras": {
+        "name": "No dejar a nadie atrás",
+        "items": [
+            {
+                "name": "Plenamente comprometido",
+                "value": 100
+            },
+            {
+                "name": "Considerado como eje central de la Agenda 2030",
+                "value": 70
+            },
+            {
+                "name": "Considerado relevante para la población que representa",
+                "value": 30
+            }
+        ]
+    },
+    "enfoque_transversal": {
+        "name": "Enfoque transversal",
+        "items": [
+            {
+                "name": "Hacen referencia",
+                "value": 100
+            },
+            {
+                "name": "Sin referencias",
+                "value": 50
+            }
+        ]
+    },
+    "agenda_2030": {
+        "name": "Aproximación holística a la Agenda 2030",
+        "items": [
+            {
+                "name": "Hacen referencia directa",
+                "value": 100
+            },
+            {
+                "name": "Hacen referencia indirecta",
+                "value": 70
+            },
+            {
+                "name": "Sin referencias",
+                "value": 30
+            }
+        ]
+    },
+    "aprox_ds": {
+        "name": "Triple aproximación al Desarrollo Sostenible",
+        "items": [
+            {
+                "name": "Aplica para toda la Agenda 2030 en su conjunto",
+                "value": 100
+            },
+            {
+                "name": "Referencia directa a un ODS específico",
+                "value": 70
+            },
+            {
+                "name": "Sin referencias",
+                "value": 30
+            }
+        ]
+    },
+    "abandonar_bas": {
+        "name": "Abandonar el \"business as usual\"",
+        "items": [
+            {
+                "name": "Referencia directa",
+                "value": 100
+            },
+            {
+                "name": "Referencia indirecta",
+                "value": 70
+            },
+            {
+                "name": "Sin referencias",
+                "value": 30
+            }
+        ]
+    },
+    "ref_ddhh": {
+        "name": "Referencias a los Derechos Humanos",
+        "items": [
+            {
+                "name": "Considerados un principio para la implementación de la Agenda 2030",
+                "value": 100
+            },
+            {
+                "name": "Referencia directa",
+                "value": 70
+            },
+            {
+                "name": "Sin referencias",
+                "value": 30
+            }
+        ]
+    },
+    "rendicion_cuentas": {
+        "name": "Rendición de cuentas",
+        "items": [
+            {
+                "name": "Considerada central",
+                "value": 100
+            },
+            {
+                "name": "Considerada tangencialmente",
+                "value": 70
+            },
+            {
+                "name": "Sin referencias",
+                "value": 30
+            }
+        ]
+    }
+}
