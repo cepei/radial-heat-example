@@ -50,7 +50,7 @@ d3.json("hierachy.json", function(hierachy){
 				.innerRadius(50)
 				.radialLabels(null)
 				.segmentLabels(segment_labels)
-				.range([ "#CEE3F6", "#0174DF"]);		
+				.range([ "#37B0CF", "#21285C"]);		
 			
 			var tip = d3.select("body").append("div")	
 				.attr("class", "tooltip")				
@@ -67,6 +67,8 @@ d3.json("hierachy.json", function(hierachy){
 				.append('svg')
 				.call(chart)
 				
+			
+			//Filter	
 			d3.select("#filter")
 					.selectAll("div")
 					.data(radialLabels)
@@ -97,10 +99,18 @@ d3.json("hierachy.json", function(hierachy){
 						
 						})
 					
-				
+					
+			//Chart on mouse over	
 			d3.selectAll('#chart path')  
 						.on("mouseover", function(d) {	
 							var datum = d3.select(this).data()[0];								
+							//d3.selectAll("svg textPath").classed("active", true );
+							d3.selectAll("svg textPath").
+								each(function(d,i){
+									if(d == datum.theme)
+										d3.select(this).classed("active", true);
+									})
+							
 							d3.selectAll(".filter-element")
 								.each(function(d,i){
 									if(d == datum.group ) d3.select(this).classed("active", true );
@@ -130,13 +140,14 @@ d3.json("hierachy.json", function(hierachy){
 								.style("top", (d3.event.pageY + 50) + "px");	
 								
 								
-							cuestiones.html(
-											"<blockquote>" + datum.cuestiones + "</blockquote><br/><br/><i>" 
+							cuestiones.html("<h4>Idea Principal</h4>" +
+											"<blockquote>" + datum.cuestiones + "</blockquote><i>" 
 											+ datum.group + "</i>");
 							})					
 							
 							
 						.on("mouseout", function(d) {
+							d3.selectAll("svg textPath").classed("active", false );
 							d3.selectAll('#chart path').each(
 								function(d,i){
 										d3.select(this).style("opacity", 0.1)									
