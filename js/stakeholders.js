@@ -20,7 +20,8 @@ d3.json("hierachy.json", function(hierachy){
 				group = radialLabels[i]
 				for(j in holders_data){
 					 if(holders_data[j].key != "cuestiones"){
-						var quali_value = holders_data[j].values[0][group]
+						var cuestiones = holders_data[0].values[0][group];
+						var quali_value = holders_data[j].values[0][group];
 						var quanti_value = 	hierachy[holders_data[j].key]
 											.items
 											.filter(function(value) { return value.name == quali_value })[0].value
@@ -29,7 +30,10 @@ d3.json("hierachy.json", function(hierachy){
 							console.log(quali_value);
 							console.log(quanti_value)
 						}
-						data.push({theme: holders_data[j].key, value: quanti_value, group: group, position: quali_value});
+						data.push({theme: hierachy[holders_data[j].key].name, 
+									value: quanti_value, group: group, 
+									position: quali_value,
+									cuestiones: cuestiones});
 						
 					   }
 					}
@@ -43,9 +47,12 @@ d3.json("hierachy.json", function(hierachy){
 				.segmentLabels(segment_labels)
 				.range(["green", "orange"]);;			
 			
-			var div = d3.select("body").append("div")	
+			var tip = d3.select("body").append("div")	
 				.attr("class", "tooltip")				
 				.style("opacity", 0);
+				
+			var cuestiones = d3.select(".cuestiones").append("div")	
+				.attr("class", "cuest-text");
 
 
 			d3.select('#chart')
@@ -59,19 +66,27 @@ d3.json("hierachy.json", function(hierachy){
 						.on("mouseover", function(d) {	
 							console.log(d3.select(this))
 							var datum = d3.select(this).data()[0];	
-							div.transition()		
-								.duration(20)		
+							tip.transition()		
+								.duration(2)		
 								.style("opacity", .9);		
-							div	.html("Grupo: " + datum.group 
-								+ "<br/>Tema: " + datum.theme
-								+ "<br/>Posición: " + datum.position)	
+							tip	.html("<b>Grupo:</b> " + datum.group 
+								+ "<br/><b>Tema:</b> " + datum.theme
+								+ "<br/><b>Posición:</b> " + datum.position)	
 								.style("left", (d3.event.pageX) + "px")		
 								.style("top", (d3.event.pageY - 28) + "px");	
+								
+								
+							cuestiones.html(datum.cuestiones + "<br/><br/><i>" 
+											+ datum.group + "</i>");
 							})					
+							
+							
 						.on("mouseout", function(d) {		
-							div.transition()		
-								.duration(50)		
+							tip.transition()		
+								.duration(5)		
 								.style("opacity", 0);	
+								
+							cuestiones.html("");
 						});
 				  
 		})
