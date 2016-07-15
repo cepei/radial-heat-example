@@ -96,27 +96,34 @@ d3.json("hierachy.json", function(hierachy){
 						})
 						
 						})
-					//~ .on("click", function(group){
-						//~ 
-						//~ d3.selectAll('#chart path').each(
-							//~ function(d,i){
-									//~ d3.select(this).style("opacity", 0.1)									
-								//~ })
-						//~ d3.selectAll('#chart path').each(
-							//~ function(d,i){
-								//~ if(d.group == group){
-									//~ d3.select(this).style("opacity", 1)						
-								//~ }
-							//~ }
-						//~ )
-						//~ 
-						//~ })
+					.on("click", function(group){
+						
+						d3.selectAll('#chart path').each(
+							function(d,i){
+									d3.select(this).style("opacity", 0.1)									
+								})
+						d3.selectAll('#chart path').each(
+							function(d,i){
+								if(d.group == group){
+									d3.select(this).style("opacity", 1)						
+								}
+							}
+						)
+						
+						})
 					
 					
 				
 			d3.selectAll('#chart path')  
 						.on("mouseover", function(d) {	
-							var datum = d3.select(this).data()[0];	
+							var datum = d3.select(this).data()[0];								
+							d3.selectAll(".filter-element")
+								.each(function(d,i){
+									if(d == datum.group ) d3.select(this).classed("active", true );
+									})
+								
+								
+
 							tip.transition()		
 								.duration(2)		
 								.style("opacity", .9);		
@@ -128,12 +135,15 @@ d3.json("hierachy.json", function(hierachy){
 								
 								
 							cuestiones.html(
-											datum.cuestiones + "<br/><br/><i>" 
+											"<blockquote>" + datum.cuestiones + "</blockquote><br/><br/><i>" 
 											+ datum.group + "</i>");
 							})					
 							
 							
-						.on("mouseout", function(d) {		
+						.on("mouseout", function(d) {	
+							d3.selectAll(".filter-element")
+								.classed("active", false );	
+								
 							tip.transition()		
 								.duration(5)		
 								.style("opacity", 0);	

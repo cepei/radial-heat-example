@@ -41,7 +41,7 @@ footer p {
 div.tooltip {	
     position: absolute;			
     text-align: left;			
-    width: auto;					
+    width: 200px;					
     height: auto;					
     padding: 2px;				
     font: 12px sans-serif;		
@@ -53,7 +53,7 @@ div.tooltip {
 
 .cuestiones{
 	margin-left: 100px;
-	margin-top: 100px;
+	margin-top: 10px;
 }
 
 .cuestiones i {
