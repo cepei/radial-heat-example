@@ -96,22 +96,6 @@ d3.json("hierachy.json", function(hierachy){
 						})
 						
 						})
-					.on("click", function(group){
-						
-						d3.selectAll('#chart path').each(
-							function(d,i){
-									d3.select(this).style("opacity", 0.1)									
-								})
-						d3.selectAll('#chart path').each(
-							function(d,i){
-								if(d.group == group){
-									d3.select(this).style("opacity", 1)						
-								}
-							}
-						)
-						
-						})
-					
 					
 				
 			d3.selectAll('#chart path')  
@@ -121,7 +105,19 @@ d3.json("hierachy.json", function(hierachy){
 								.each(function(d,i){
 									if(d == datum.group ) d3.select(this).classed("active", true );
 									})
-								
+
+							d3.selectAll('#chart path').each(
+								function(d,i){
+										d3.select(this).style("opacity", 0.1)									
+									})
+							d3.selectAll('#chart path').each(
+								function(d,i){
+									if(d.group == datum.group){
+										d3.select(this).style("opacity", 1)						
+									}
+								}
+							)		
+							
 								
 
 							tip.transition()		
@@ -140,7 +136,11 @@ d3.json("hierachy.json", function(hierachy){
 							})					
 							
 							
-						.on("mouseout", function(d) {	
+						.on("mouseout", function(d) {
+							d3.selectAll('#chart path').each(
+								function(d,i){
+										d3.select(this).style("opacity", 0.1)									
+							})		
 							d3.selectAll(".filter-element")
 								.classed("active", false );	
 								
