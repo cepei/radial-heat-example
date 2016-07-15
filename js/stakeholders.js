@@ -50,7 +50,7 @@ d3.json("hierachy.json", function(hierachy){
 				.innerRadius(50)
 				.radialLabels(null)
 				.segmentLabels(segment_labels)
-				.range([ "#CEE3F6", "#0174DF"]);;			
+				.range([ "#CEE3F6", "#0174DF"]);		
 			
 			var tip = d3.select("body").append("div")	
 				.attr("class", "tooltip")				
@@ -73,13 +73,49 @@ d3.json("hierachy.json", function(hierachy){
 					.enter()
 					.append("div")
 					.html(function(d) { console.log(d); return d; })
-					.attr("style", "cursor: pointer")
-					.on("mouseover", function(d) {});
+					.classed("filter-element", true)
+					.on("mouseover", function(group) { 
+						d3.select(this).classed("active", true );
+						d3.selectAll('#chart path').each(
+							function(d,i){
+									d3.select(this).style("opacity", 0.1)									
+								})
+						d3.selectAll('#chart path').each(
+							function(d,i){
+								if(d.group == group){
+									d3.select(this).style("opacity", 1)						
+								}
+							}
+						)
+						})      
+					.on("mouseout",  function(group) { 
+						d3.select(this).classed("active", false);
+						d3.selectAll('#chart path').each(
+							function(d,i){
+									d3.select(this).style("opacity", 0.1)									
+						})
+						
+						})
+					//~ .on("click", function(group){
+						//~ 
+						//~ d3.selectAll('#chart path').each(
+							//~ function(d,i){
+									//~ d3.select(this).style("opacity", 0.1)									
+								//~ })
+						//~ d3.selectAll('#chart path').each(
+							//~ function(d,i){
+								//~ if(d.group == group){
+									//~ d3.select(this).style("opacity", 1)						
+								//~ }
+							//~ }
+						//~ )
+						//~ 
+						//~ })
+					
 					
 				
 			d3.selectAll('#chart path')  
 						.on("mouseover", function(d) {	
-							console.log(d3.select(this))
 							var datum = d3.select(this).data()[0];	
 							tip.transition()		
 								.duration(2)		
@@ -91,7 +127,8 @@ d3.json("hierachy.json", function(hierachy){
 								.style("top", (d3.event.pageY - 28) + "px");	
 								
 								
-							cuestiones.html(datum.cuestiones + "<br/><br/><i>" 
+							cuestiones.html(
+											datum.cuestiones + "<br/><br/><i>" 
 											+ datum.group + "</i>");
 							})					
 							
@@ -102,7 +139,8 @@ d3.json("hierachy.json", function(hierachy){
 								.style("opacity", 0);	
 								
 							cuestiones.html("");
-						});
+						})
+						.style("opacity", 0.1);
 				  
 		})
 	
