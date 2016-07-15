@@ -16,6 +16,11 @@ d3.json("hierachy.json", function(hierachy){
 			data = [];
 			console.log(hierachy)
 			
+			console.log(d3.select("#filter"));
+			
+
+					
+					
 			for(i in radialLabels){
 				group = radialLabels[i]
 				for(j in holders_data){
@@ -43,9 +48,9 @@ d3.json("hierachy.json", function(hierachy){
 			var chart = circularHeatChart()
 				.accessor(function(d) {return d.value;})
 				.innerRadius(50)
-				.radialLabels(radialLabels)
+				.radialLabels(null)
 				.segmentLabels(segment_labels)
-				.range(["#0174DF", "#CEE3F6"]);;			
+				.range([ "#CEE3F6", "#0174DF"]);;			
 			
 			var tip = d3.select("body").append("div")	
 				.attr("class", "tooltip")				
@@ -61,6 +66,16 @@ d3.json("hierachy.json", function(hierachy){
 				.enter()
 				.append('svg')
 				.call(chart)
+				
+			d3.select("#filter")
+					.selectAll("div")
+					.data(radialLabels)
+					.enter()
+					.append("div")
+					.html(function(d) { console.log(d); return d; })
+					.attr("style", "cursor: pointer")
+					.on("mouseover", function(d) {});
+					
 				
 			d3.selectAll('#chart path')  
 						.on("mouseover", function(d) {	
