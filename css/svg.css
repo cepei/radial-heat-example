@@ -22,7 +22,7 @@ path {
 }
 .labels.segment {
 	font-size: 10px;
-	font: 11px sans-serif;
+	font: sans-serif;
 }
 
 #chart3 .labels {

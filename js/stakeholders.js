@@ -126,8 +126,8 @@ d3.json("hierachy.json", function(hierachy){
 							tip	.html("<b>Grupo:</b> " + datum.group 
 								+ "<br/><b>Tema:</b> " + datum.theme
 								+ "<br/><b>Posición:</b> " + datum.position)	
-								.style("left", (d3.event.pageX) + "px")		
-								.style("top", (d3.event.pageY - 28) + "px");	
+								.style("left", (d3.event.pageX + 20) + "px")		
+								.style("top", (d3.event.pageY + 50) + "px");	
 								
 								
 							cuestiones.html(

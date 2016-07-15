@@ -2,7 +2,7 @@
 
 rm $0
 
-./circularHeatChart
+./stakeholders
 
 echo "
 
