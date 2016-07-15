@@ -29,7 +29,7 @@ d3.json("hierachy.json", function(hierachy){
 							console.log(quali_value);
 							console.log(quanti_value)
 						}
-						data.push({title: quali_value, value: quanti_value});
+						data.push({theme: holders_data[j].key, value: quanti_value, group: group, position: quali_value});
 						
 					   }
 					}
@@ -42,6 +42,11 @@ d3.json("hierachy.json", function(hierachy){
 				.radialLabels(radialLabels)
 				.segmentLabels(segment_labels)
 				.range(["green", "orange"]);;			
+			
+			var div = d3.select("body").append("div")	
+				.attr("class", "tooltip")				
+				.style("opacity", 0);
+
 
 			d3.select('#chart')
 				.selectAll('svg')
@@ -50,23 +55,25 @@ d3.json("hierachy.json", function(hierachy){
 				.append('svg')
 				.call(chart)
 				
-			//~ d3.select('#chart svg')  
-				  //~ .call(tip)			
-			      //~ .on('mouseover', tip.show)
-				  //~ .on('mouseout', tip.hide)
-				  //~ 
-			d3.selectAll("#chart path").on('mouseover', function() {
-				var d = d3.select(this).data()[0];
-				d3.select("#descriptor").html(d.title + ' has value ' + d.value)
-			});
-			
-			//~ var tip = d3.tip()
-			  //~ .attr('class', 'd3-tip')
-			  //~ .offset([-10, 0])
-			  //~ .html(function(d) {
-				//~ return "<strong>Frequency:</strong> <span style='color:red'>" + "</span>";
-			  //~ })
-	//~ 
+			d3.selectAll('#chart path')  
+						.on("mouseover", function(d) {	
+							console.log(d3.select(this))
+							var datum = d3.select(this).data()[0];	
+							div.transition()		
+								.duration(20)		
+								.style("opacity", .9);		
+							div	.html("Grupo: " + datum.group 
+								+ "<br/>Tema: " + datum.theme
+								+ "<br/>Posición: " + datum.position)	
+								.style("left", (d3.event.pageX) + "px")		
+								.style("top", (d3.event.pageY - 28) + "px");	
+							})					
+						.on("mouseout", function(d) {		
+							div.transition()		
+								.duration(50)		
+								.style("opacity", 0);	
+						});
+				  
 		})
 	
 	})
