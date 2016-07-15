@@ -45,7 +45,7 @@ d3.json("hierachy.json", function(hierachy){
 				.innerRadius(50)
 				.radialLabels(radialLabels)
 				.segmentLabels(segment_labels)
-				.range(["green", "orange"]);;			
+				.range(["#0174DF", "#CEE3F6"]);;			
 			
 			var tip = d3.select("body").append("div")	
 				.attr("class", "tooltip")				
