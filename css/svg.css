@@ -4,25 +4,31 @@ svg {
 	height: 300px;
 }
 #chart svg, #chart3 svg {
-	height: 1000px;
+	height: 700px;
 }
 #chart4 svg {
 	height: 470px;
 }
 path {
-	stroke: #777;
-	stroke-width: 0.1px;
+	stroke: #111;
+	stroke-width: 0.2px;
 }
 
 .labels {
-	fill: #aaa;
+	fill: #000;
 	font-weight: 200;
 	letter-spacing: -1px;
+	font: 12px sans-serif;
 }
 .labels.segment {
 	font-size: 10px;
+	font: 12px sans-serif;
 }
 
 #chart3 .labels {
 	fill: #555;
+}
+
+textPath{
+	color:black;
 }
