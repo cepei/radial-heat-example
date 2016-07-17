@@ -78,11 +78,11 @@ d3.json("hierachy.json", function(hierachy){
 					.classed("filter-element", true)
 					.on("mouseover", function(group) { 
 						d3.select(this).classed("active", true );
-						d3.selectAll('#chart path').each(
+						d3.selectAll('#chart .data-path').each(
 							function(d,i){
 									d3.select(this).style("opacity", 0.1)									
 								})
-						d3.selectAll('#chart path').each(
+						d3.selectAll('#chart .data-path').each(
 							function(d,i){
 								if(d.group == group){
 									d3.select(this).style("opacity", 1)						
@@ -92,7 +92,7 @@ d3.json("hierachy.json", function(hierachy){
 						})      
 					.on("mouseout",  function(group) { 
 						d3.select(this).classed("active", false);
-						d3.selectAll('#chart path').each(
+						d3.selectAll('#chart .data-path').each(
 							function(d,i){
 									d3.select(this).style("opacity", 0.1)									
 						})
@@ -101,7 +101,7 @@ d3.json("hierachy.json", function(hierachy){
 					
 					
 			//Chart on mouse over	
-			d3.selectAll('#chart path')  
+			d3.selectAll('#chart .data-path')  
 						.on("mouseover", function(d) {	
 							var datum = d3.select(this).data()[0];								
 							//d3.selectAll("svg textPath").classed("active", true );
@@ -116,11 +116,11 @@ d3.json("hierachy.json", function(hierachy){
 									if(d == datum.group ) d3.select(this).classed("active", true );
 									})
 
-							d3.selectAll('#chart path').each(
+							d3.selectAll('#chart .data-path').each(
 								function(d,i){
 										d3.select(this).style("opacity", 0.1)									
 									})
-							d3.selectAll('#chart path').each(
+							d3.selectAll('#chart .data-path').each(
 								function(d,i){
 									if(d.group == datum.group){
 										d3.select(this).style("opacity", 1)						
@@ -148,7 +148,7 @@ d3.json("hierachy.json", function(hierachy){
 							
 						.on("mouseout", function(d) {
 							d3.selectAll("svg textPath").classed("active", false );
-							d3.selectAll('#chart path').each(
+							d3.selectAll('#chart .data-path').each(
 								function(d,i){
 										d3.select(this).style("opacity", 0.1)									
 							})		
