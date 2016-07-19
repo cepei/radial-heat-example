@@ -167,6 +167,83 @@ d3.json("hierachy.json", function(hierachy){
 	
 	})
 
+	function generateTable(filename, title){
+
+		var width = 900,
+		    height = 200;
+
+		var tree = d3.layout.tree()
+		    .size([height, width - 160]);
+
+		var diagonal = d3.svg.diagonal()
+		    .projection(function(d) { return [d.y, d.x]; });
+
+		var domtree = d3.select("#tables")
+			.append("tree")
+
+		domtree.append("h4")
+				.html(title)
+
+		var svg = domtree
+			.append("svg")
+		    .attr("width", width)
+		    .attr("height", height)
+		  .append("g")
+		    .attr("transform", "translate(40,0)");
+
+
+		d3.csv(filename,function(data){
+			var headerNames = d3.keys(data[0]);
+			var root = {"name":title, "children":[]}
+			for(var i in headerNames){
+				var header = headerNames[i];
+				var option = {"name":header, children:[]}
+				
+				for(var j in data){
+					if(data[j][header]!="")
+						option.children.push({"name":data[j][header], "size": 1});
+				} 
+
+				root.children.push(option);
+
+				}
+				var nodes = tree.nodes(root),
+				  links = tree.links(nodes);
+
+				var link = svg.selectAll("path.link")
+				  .data(links)
+				.enter().append("path")
+				  .attr("class", "link")
+				  .attr("d", diagonal);
+
+				var node = svg.selectAll("g.node")
+				  .data(nodes)
+				.enter().append("g")
+				  .attr("class", "node")
+				  .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; })
+
+				node.append("circle")
+				  .attr("r", 4.5);
+
+				node.append("text")
+				  .attr("dx", function(d) { return d.children ? 8 : 8; })
+				  .attr("dy", function(d) { return d.children ? -2 : 3; })
+				  //.attr("dy", 3)
+				  .attr("text-anchor", function(d) { return d.children ? "start" : "start"; })
+				  .text(function(d) { return d.name; });
+
+
+			});
+			d3.select(self.frameElement).style("height", height + "px");
+
+	}
+
+	generateTable("Gobernanza_de_los_ODS.csv", "Gobernanza de los ODS");
+	generateTable("Medios_de_implementacion.csv", "Medios de implementación");
+	generateTable("Referencias_Casos_Especificos.csv", "Referencias a Casos Especificos");
+	generateTable("Relaciones_otros_procesos.csv", "Relaciones otros procesos");
+	generateTable("Trabajo_a_nivel global_regional_y_local.csv", "Trabajo a nivel global, regional y local");
+
 }
 
 

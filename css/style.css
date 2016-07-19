@@ -50,7 +50,7 @@ div.tooltip {
     height: auto;					
     padding: 2px;				
     font: 12px sans-serif;		
-    background: lightsteelblue;	
+    background: #b5bbe3;	
     border: 0px;		
     border-radius: 8px;			
     pointer-events: none;			
@@ -94,6 +94,7 @@ svg textPath.active{
 .bg-info{
 	text-align: justify;
 	padding: 40px;
+	background-color: #eaf7fa;
 }
 
 .convention-bar{
@@ -109,4 +110,8 @@ svg textPath.active{
 
 .convention{
 	align:center;
+}
+
+.container{
+	background-color: #F9FBFC;
 }

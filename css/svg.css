@@ -32,3 +32,22 @@ path {
 textPath{
 	color:black;
 }
+
+
+
+.node circle {
+  fill: #fff;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+
+.node {
+  font: 11px sans-serif;
+  color:black;
+}
+
+.link {
+  fill: none;
+  stroke: #ccc;
+  stroke-width: 1.5px;
+}
