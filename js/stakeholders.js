@@ -167,82 +167,91 @@ d3.json("hierachy.json", function(hierachy){
 	
 	})
 
-	function generateTable(filename, title){
 
-		var width = 900,
-		    height = 200;
+	var width = 1000,
+		height = 2000;
 
-		var tree = d3.layout.tree()
-		    .size([height, width - 160]);
+	var tree = d3.layout.tree()
+	    .size([height, width - 360]);
 
-		var diagonal = d3.svg.diagonal()
-		    .projection(function(d) { return [d.y, d.x]; });
+	var diagonal = d3.svg.diagonal()
+	    .projection(function(d) { return [d.y, d.x]; });
 
-		var domtree = d3.select("#tables")
-			.append("tree")
+	var domtree = d3.select("#tables")
+		.append("tree")
 
-		domtree.append("h4")
-				.html(title)
+	var svg = domtree
+		.append("svg")
+	    .style("height", height + "px")
+	    .style("width", width + "px")
+	  .append("g")
+	    .attr("transform", "translate(40,0)");
 
-		var svg = domtree
-			.append("svg")
-		    .attr("width", width)
-		    .attr("height", height)
-		  .append("g")
-		    .attr("transform", "translate(40,0)");
+	d3.csv("others.csv",function(data){
+		datafiltered = data.filter(function(d){return d.Elementos != ""})
+		var rootData = 	d3.nest()
+						.key(function(d){return d.Elementos})
+						.entries(datafiltered)
+						.map(function(obj){
+								var branch = {};
+								branch["name"] = obj.key;
+								//branch["children"] = obj.values;
+								 branch["children"] = []
+								var children = obj.values[0];
+								var children_names = []
+								for(var k in children){
+									if(children[k]!="" && (children_names.indexOf(children[k]) == -1) ){
+								 		//branch.children.push({"name":children[k], "children":k})
+								 		children_names.push(children[k])
+									}
+								}
+
+								for(var k_names in children_names){
+									var subbranch = {"name":children_names[k_names], "children":[]}
+									for(k_children in children){
+										if(children[k_children] == children_names[k_names]){
+											subbranch.children.push({"name":k_children})
+										}
+									}
+									branch.children.push(subbranch)
+
+								}
+								//console.log(children_names);
+								return branch;
+
+							}
+					)
+		console.log(rootData);
+		var headerNames = d3.keys(data[0]);
+		var root = {"name":"", "children":rootData}
+			var nodes = tree.nodes(root),
+			  links = tree.links(nodes);
+
+			var link = svg.selectAll("path.link")
+			  .data(links)
+			.enter().append("path")
+			  .attr("class", "link")
+			  .attr("d", diagonal);
+
+			var node = svg.selectAll("g.node")
+			  .data(nodes)
+			.enter().append("g")
+			  .attr("class", "node")
+			  .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; })
+
+			node.append("circle")
+			  .attr("r", 4.5);
+
+			node.append("text")
+			  .attr("dx", function(d) { return d.children ? 8 : 8; })
+			  .attr("dy", function(d) { return d.children ? -2 : 3; })
+			  //.attr("dy", 3)
+			  .attr("text-anchor", function(d) { return d.children ? "start" : "start"; })
+			  .text(function(d) { return d.name; });
 
 
-		d3.csv(filename,function(data){
-			var headerNames = d3.keys(data[0]);
-			var root = {"name":title, "children":[]}
-			for(var i in headerNames){
-				var header = headerNames[i];
-				var option = {"name":header, children:[]}
-				
-				for(var j in data){
-					if(data[j][header]!="")
-						option.children.push({"name":data[j][header], "size": 1});
-				} 
-
-				root.children.push(option);
-
-				}
-				var nodes = tree.nodes(root),
-				  links = tree.links(nodes);
-
-				var link = svg.selectAll("path.link")
-				  .data(links)
-				.enter().append("path")
-				  .attr("class", "link")
-				  .attr("d", diagonal);
-
-				var node = svg.selectAll("g.node")
-				  .data(nodes)
-				.enter().append("g")
-				  .attr("class", "node")
-				  .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; })
-
-				node.append("circle")
-				  .attr("r", 4.5);
-
-				node.append("text")
-				  .attr("dx", function(d) { return d.children ? 8 : 8; })
-				  .attr("dy", function(d) { return d.children ? -2 : 3; })
-				  //.attr("dy", 3)
-				  .attr("text-anchor", function(d) { return d.children ? "start" : "start"; })
-				  .text(function(d) { return d.name; });
-
-
-			});
-			d3.select(self.frameElement).style("height", height + "px");
-
-	}
-
-	generateTable("Gobernanza_de_los_ODS.csv", "Gobernanza de los ODS");
-	generateTable("Medios_de_implementacion.csv", "Medios de implementación");
-	generateTable("Referencias_Casos_Especificos.csv", "Referencias a Casos Especificos");
-	generateTable("Relaciones_otros_procesos.csv", "Relaciones otros procesos");
-	generateTable("Trabajo_a_nivel global_regional_y_local.csv", "Trabajo a nivel global, regional y local");
+		});
+		d3.select(self.frameElement).style("height", height + "px");
 
 }
 
