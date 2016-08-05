@@ -14,9 +14,7 @@ d3.json("hierachy.json", function(hierachy){
 			radialLabels = Object.keys(holders_data[0].values[0]);
 			radialLabels.splice(0,1);
 			data = [];
-			console.log(hierachy)
 			
-			console.log(d3.select("#filter"));
 			
 
 					
@@ -30,11 +28,6 @@ d3.json("hierachy.json", function(hierachy){
 						var quanti_value = 	hierachy[holders_data[j].key]
 											.items
 											.filter(function(value) { return value.name == quali_value })[0].value
-						if(!quanti_value){
-							console.log(holders_data[j]);
-							console.log(quali_value);
-							console.log(quanti_value)
-						}
 						data.push({theme: hierachy[holders_data[j].key].name, 
 									value: quanti_value, group: group, 
 									position: quali_value,
@@ -74,7 +67,7 @@ d3.json("hierachy.json", function(hierachy){
 					.data(radialLabels)
 					.enter()
 					.append("div")
-					.html(function(d) { console.log(d); return d; })
+					.html(function(d) {return d; })
 					.classed("filter-element", true)
 					.on("mouseover", function(group) { 
 						d3.select(this).classed("active", true );
@@ -168,11 +161,11 @@ d3.json("hierachy.json", function(hierachy){
 	})
 
 
-	var width = 1000,
+	var width = 1100,
 		height = 2000;
 
 	var tree = d3.layout.tree()
-	    .size([height, width - 360]);
+	    .size([height, width - 300]);
 
 	var diagonal = d3.svg.diagonal()
 	    .projection(function(d) { return [d.y, d.x]; });
@@ -200,8 +193,7 @@ d3.json("hierachy.json", function(hierachy){
 								var children = obj.values[0];
 								var children_names = []
 								for(var k in children){
-									if(children[k]!="" && (children_names.indexOf(children[k]) == -1) ){
-								 		//branch.children.push({"name":children[k], "children":k})
+									if(children[k]!="" && (children_names.indexOf(children[k]) == -1 && k!="Elementos") ){
 								 		children_names.push(children[k])
 									}
 								}
@@ -210,18 +202,20 @@ d3.json("hierachy.json", function(hierachy){
 									var subbranch = {"name":children_names[k_names], "children":[]}
 									for(k_children in children){
 										if(children[k_children] == children_names[k_names]){
-											subbranch.children.push({"name":k_children})
+											var splitted_group = k_children.split(" ")
+											if(splitted_group[splitted_group.length -1] != "2")
+												subbranch.children.push({"name":k_children})
+											else
+												subbranch.children.push({"name":splitted_group.slice(0,-1).join(" ")})
 										}
 									}
 									branch.children.push(subbranch)
 
 								}
-								//console.log(children_names);
 								return branch;
 
 							}
 					)
-		console.log(rootData);
 		var headerNames = d3.keys(data[0]);
 		var root = {"name":"", "children":rootData}
 			var nodes = tree.nodes(root),
@@ -244,14 +238,43 @@ d3.json("hierachy.json", function(hierachy){
 
 			node.append("text")
 			  .attr("dx", function(d) { return d.children ? 8 : 8; })
-			  .attr("dy", function(d) { return d.children ? -2 : 3; })
-			  //.attr("dy", 3)
+			  .attr("dy", function(d) { return d.children ? 0 : 0; })
 			  .attr("text-anchor", function(d) { return d.children ? "start" : "start"; })
-			  .text(function(d) { return d.name; });
+			  .text(function(d) { return d.name; })
+			  .call(wrap, 80);
+;
 
 
 		});
 		d3.select(self.frameElement).style("height", height + "px");
+
+		function wrap(text) {
+		  text.each(function() {
+		    var text = d3.select(this),
+		        words = text.text().split(/\s+/).reverse(),
+		        word,
+		        line = [],
+		        lineNumber = 0,
+		        lineHeight = 1.1, // ems
+		        y = text.attr("y"),
+		        dy = parseFloat(text.attr("dy")),
+		        tspan = text.text(null).append("tspan").attr("x", 0).attr("y", y).attr("dy", dy + "em"),
+		        width = text[0][0].__data__.children?200:500;
+		    while (word = words.pop()) {
+		      line.push(word);
+		      tspan.text(line.join(" "));
+		      if (tspan.node().getComputedTextLength() > width) {
+		        line.pop();
+		        tspan.text(line.join(" "));
+		        line = [word];
+		        tspan = text.append("tspan").attr("x", 0).attr("y", y).attr("dy", ++lineNumber * lineHeight + 0 + "em").text(word);
+		      }
+		    }
+		  });
+		}
+
+
+		  
 
 }
 
